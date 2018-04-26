@@ -1,9 +1,9 @@
-# SIMPLEアーキテクチャアセンブラ
+# SIMPLEアーキテクチャアセンブラ変換くん
 
 ## 使い方
 
-\# から始まる行はコメントアウト(空白文字不可)
-ADD r[Rd] r[Rs] みたいな感じで書くと機械語が出てきてほしい
+\# から始まる行はコメントアウト(空白文字不可)  
+ADD r[Rd] r[Rs] みたいな感じで書くと機械語が出てきてほしい  
 使わない桁は適当に 0 fill
 
 ## アセンブリ記述例
@@ -14,7 +14,7 @@ LD  r[0] r[1] 00010000
 
 ## 命令セット
 
-### R形式[11 Rs Rd op3 d]
+### R形式[11 Rs(3) Rd(3) op3(4) d(4)]
 
 ADD Rd, Rs : op3 = 0000 : r[Rd] = r[Rd] + r[Rs]  
 SUB Rd, Rs : op3 = 0001 : r[Rd] = r[Rd] - r[Rs]  
@@ -32,20 +32,20 @@ IN  Rd, d  : op3 = 1100 : r[Rd] = input
 OUT Rd, d  : op3 = 1101 : output = r[Rs]  
 HLT        :            : HALT
 
-### load[00 Ra Rb d]
+### load[00 Ra(3) Rb(3) d(8)]
 
 LD  Ra, d(Rb) : r[Ra] = *(r[Rb] + d)
 
-### store[01 Ra Rb d]
+### store[01 Ra(3) Rb(3) d(8)]
 
 ST  Ra, d(Rb) : *(r[Rb] + d) = r[Ra]
 
-### load_immediate[10 op2 Rb d]
+### load_immediate[10 op2(3) Rb(3) d(8)]
 
 LI  Rb, d  : op2 = 000 : r[Rb] = d  
 BR   Rb, d  : op2 = 100 : PC = PC + 1 + d
 
-### branch[10 111 cond d]
+### branch[10 111 cond(3) d(8)]
 
 BE  d : cond = 000 : if(Z) PC = PC + 1 + d  
 BLT d : cond = 001 : if(S ^ V) PC = PC + 1 + d  

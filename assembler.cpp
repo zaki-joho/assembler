@@ -15,6 +15,7 @@ string s_to_b(string s){
     else if(s[2] == '7') return "111";
     else{
         cout << "parsing failed" << "(in line: " << line << ")" <<endl;
+        cout<<"exit code : 0"<<endl;
         return 0;
     }
 }
@@ -25,14 +26,18 @@ int main(){
         if(inst[0] == '#') continue;
         line++;
         string sub2="**", sub3="***";
-        if(inst.length() >= 2) sub2 = inst.substr(0,2);
-        else if(inst.length() == 3) sub3 = inst.substr(0,3);
+        string res = "";
+        if(inst.length() == 2) sub2 = inst.substr(0,2);
+        else if(inst.length() == 3){
+            sub2 = inst.substr(0,2);
+            sub3 = inst.substr(0,3);
+        }
         else{
             cout << "parsing failed" << "(in line: " << line << ")" <<endl;
+            cout<<"exit code : 1"<<endl;
             return 0;
         }
 
-        string res = "";
         if(sub3 == "ADD" || sub3 == "SUB" || sub3 == "AND" || sub2 == "OR" ||
            sub3 == "XOR" || sub3 == "CMP" || sub3 == "MOV"){
             res += "11";
@@ -68,6 +73,7 @@ int main(){
             else if(sub3 == "SRA") res += "1011";
             else{
                 cout << "parsing failed" << "(in line: " << line << ")" << endl;
+                cout<<"exit code : 2"<<endl;
                 return 0;
             }
 
@@ -142,6 +148,7 @@ int main(){
             else if(sub3 =="BNE") res+="011";
             else{
                 cout << "parsing failed" << "(in line: " << line << ")" << endl;
+                cout<<"exit code : 4"<<endl;
                 return 0;
             }
 
@@ -149,6 +156,8 @@ int main(){
         }
         else{
             cout << "parsing failed" << "(in line: " << line << ")" << endl;
+            cout<<"exit code : 5"<<endl;
+            cout<<inst<<" "<<sub2<<" "<<sub3<<endl;
             return 0;
         }
         cout<<res<<endl;
